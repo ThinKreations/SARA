@@ -9,20 +9,16 @@ import Clase from "@/components/{IdClase}";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home(){
-  let isLogged=true;
-  return (
+    return(
     <>
-      <MainHead title='SARA'/>
-      <div className={styles.container}>
-      <MainAside />
-      <div className={styles.MainArea}>
-          {!isLogged?
-          (<><LogIn/></>)
-          :
-          (<><Clase/></>)
-          }
-      </div>
-      </div>
+        <MainHead title='SARA'/>
+        <div className={styles.container}>
+        <MainAside />
+        <div className={styles.MainArea}>
+        {/* Aquí irá el formulario de registro de la unidad de aprendizaje/secuencia */}
+        
+        </div>
+        </div>
     </>
   )
 }
