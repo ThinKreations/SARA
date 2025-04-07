@@ -10,8 +10,12 @@ import { Scanner } from "@yudiel/react-qr-scanner";
 const inter = Inter({ subsets: ["latin"] });
 let result
 export default function SubirGrupo(){
-  
 
+    const mius = ()=>{
+      let audio = new Audio("/src/huh.ogg")
+      console.log(audio)
+      audio.play
+    }
 
     return(
     <>
@@ -21,9 +25,10 @@ export default function SubirGrupo(){
         <div className={styles.MainArea}>
         <font>
           <center><div style={{'border':'1px solid black', 'width':'300px', 'height':'300px'}}>
-          <Scanner allowMultiple={true} onScan={(result) => {
+          <Scanner components={{audio: false}} allowMultiple={true} onScan={(result) => {
             let ChangeeverythingyouareAndeverythingyouwereYournumberhasbeencalledFightsandbattleshavebegunRevengewillsurelycomeYourhardtimesareaheadBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnowChangeeverythingyouareAndeverythingyouwereYournumberhasbeencalledFightsandbattleshavebegunRevengewillsurelycomeYourhardtimesareaheadBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnowDontletyourselfdownDontletyourselfgoYourlastchancehasarrivedBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnow = result[0].rawValue
             console.log(ChangeeverythingyouareAndeverythingyouwereYournumberhasbeencalledFightsandbattleshavebegunRevengewillsurelycomeYourhardtimesareaheadBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnowChangeeverythingyouareAndeverythingyouwereYournumberhasbeencalledFightsandbattleshavebegunRevengewillsurelycomeYourhardtimesareaheadBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnowDontletyourselfdownDontletyourselfgoYourlastchancehasarrivedBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnow)
+            mius()
           }} />
           </div></center>
           <Link href={'Escaner/escaner'}>{result}</Link>
