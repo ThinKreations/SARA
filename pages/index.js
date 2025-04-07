@@ -4,7 +4,7 @@ import styles from "@/styles/Home.module.css";
 import MainHead from "@/components/MainHead";
 import MainAside from "@/components/MainAside";
 import LogIn from "@/components/LogIn";
-import Clase from "@/components/{IdClase}";
+import Docente from "@/components/[idDocente]";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,12 +14,12 @@ export default function Home(){
     <>
       <MainHead title='SARA'/>
       <div className={styles.container}>
-      <MainAside />
+      <MainAside/>
       <div className={styles.MainArea}>
           {!isLogged?
           (<><LogIn/></>)
           :
-          (<><Clase/></>)
+          (<><Docente/></>)
           }
       </div>
       </div>
