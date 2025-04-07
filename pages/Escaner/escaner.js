@@ -11,13 +11,14 @@ export default function Escaner() {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Solo ejecuta en cliente
     setIsClient(true);
   }, []);
 
   const activarSonido = () => {
-    const audio = document.getElementById('audioScaner');
-    if (audio) audio.play();
+    if (isClient) {
+      const audio = document.getElementById('audioScaner');
+      if (audio) audio.play();
+    }
   };
 
   const cerrarCamara = () => {
