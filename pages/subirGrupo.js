@@ -12,7 +12,7 @@ let result
 export default function SubirGrupo(){
 
     const mius = ()=>{
-      let audio = new Audio("/src/huh.ogg")
+      let audio = new Audio("/src/huh.mp3")
       console.log(audio)
       audio.play
     }
