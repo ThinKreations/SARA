@@ -10,15 +10,14 @@ export default function Escaner() {
 
   const [isClient, setIsClient] = useState(false);
 
+  // Aseguramos que solo se ejecute en el cliente
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   const activarSonido = () => {
-    if (isClient) {
-      const audio = document.getElementById('audioScaner');
-      if (audio) audio.play();
-    }
+    const audio = document.getElementById('audioScaner');
+    if (audio) audio.play();
   };
 
   const cerrarCamara = () => {
@@ -32,41 +31,46 @@ export default function Escaner() {
   };
 
   const encenderCamara = () => {
-    if (isClient) {
-      const video = videoRef.current;
-      const canvasElement = canvasRef.current;
-      const canvas = canvasElement.getContext('2d');
-      const btnScanQR = btnScanRef.current;
+    if (!isClient) return; // No ejecutar si no estamos en el cliente
 
-      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then((stream) => {
-        scanningRef.current = true;
-        btnScanQR.hidden = true;
-        canvasElement.hidden = false;
-        video.setAttribute('playsinline', true);
-        video.srcObject = stream;
-        video.play();
+    const video = videoRef.current;
+    const canvasElement = canvasRef.current;
+    const canvas = canvasElement.getContext('2d');
+    const btnScanQR = btnScanRef.current;
 
-        const tick = () => {
-          if (!scanningRef.current) return;
-          if (video.readyState === video.HAVE_ENOUGH_DATA) {
-            canvasElement.height = video.videoHeight;
-            canvasElement.width = video.videoWidth;
-            canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
-            const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
-            const code = jsQR(imageData.data, imageData.width, imageData.height);
-            if (code) {
-              Swal.fire(code.data);
-              activarSonido();
-              cerrarCamara();
-              return;
-            }
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then((stream) => {
+      scanningRef.current = true;
+      btnScanQR.hidden = true;
+      canvasElement.hidden = false;
+      video.setAttribute('playsinline', true);
+      video.srcObject = stream;
+      video.play();
+
+      const tick = () => {
+        if (!scanningRef.current) return;
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+          canvasElement.height = video.videoHeight;
+          canvasElement.width = video.videoWidth;
+          canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+          const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+          const code = jsQR(imageData.data, imageData.width, imageData.height);
+          if (code) {
+            Swal.fire(code.data);
+            activarSonido();
+            cerrarCamara();
+            return;
           }
-          requestAnimationFrame(tick);
-        };
+        }
         requestAnimationFrame(tick);
-      });
-    }
+      };
+      requestAnimationFrame(tick);
+    });
   };
+
+  // Si estamos en el servidor, no hacemos nada
+  if (!isClient) {
+    return null; // Evitar renderizado en servidor
+  }
 
   return (
     <div className="row justify-content-center mt-5">
