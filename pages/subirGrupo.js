@@ -19,7 +19,7 @@ export default function SubirGrupo(){
         <div className={styles.MainArea}>
         <font>
           <center><div style={{'border':'1px solid black', 'width':'300px', 'height':'300px'}}>
-          <Scanner onScan={(result) => console.log(result)} />
+          <Scanner onScan={(result) => alert(result[0].rawValue)} />
           </div></center>
           <Link href={'Escaner/escaner'}>Holap</Link>
         </font>
