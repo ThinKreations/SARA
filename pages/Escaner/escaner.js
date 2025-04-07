@@ -16,7 +16,8 @@ export default function Escaner() {
   }, []);
 
   const activarSonido = () => {
-    const audio = document.getElementById('audioScaner');
+    // Reproducir sonido sin document
+    const audio = videoRef.current?.parentNode?.querySelector('audio');
     if (audio) audio.play();
   };
 
@@ -31,8 +32,6 @@ export default function Escaner() {
   };
 
   const encenderCamara = () => {
-    if (!isClient) return; // No ejecutar si no estamos en el cliente
-
     const video = videoRef.current;
     const canvasElement = canvasRef.current;
     const canvas = canvasElement.getContext('2d');
@@ -67,12 +66,7 @@ export default function Escaner() {
     });
   };
 
-  // Si estamos en el servidor, no hacemos nada
-  if (!isClient) {
-    return null; // Evitar renderizado en servidor
-  }
-
-  return (
+  return isClient ? (
     <div className="row justify-content-center mt-5">
       <div className="col-sm-4 shadow p-3">
         <h5 className="text-center">Escanear código QR</h5>
@@ -94,5 +88,5 @@ export default function Escaner() {
         <audio id="audioScaner" src="/beep.mp3" preload="auto"></audio>
       </div>
     </div>
-  );
+  ) : null;
 }
