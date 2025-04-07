@@ -8,9 +8,11 @@ import Link from "next/link";
 import { Scanner } from "@yudiel/react-qr-scanner";
 
 const inter = Inter({ subsets: ["latin"] });
-
+let result
 export default function SubirGrupo(){
   
+
+
     return(
     <>
         <MainHead title='SARA'/>
@@ -19,9 +21,12 @@ export default function SubirGrupo(){
         <div className={styles.MainArea}>
         <font>
           <center><div style={{'border':'1px solid black', 'width':'300px', 'height':'300px'}}>
-          <Scanner onScan={(result) => alert(result[0].rawValue)} />
+          <Scanner allowMultiple={true} onScan={(result) => {
+            let ChangeeverythingyouareAndeverythingyouwereYournumberhasbeencalledFightsandbattleshavebegunRevengewillsurelycomeYourhardtimesareaheadBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnowChangeeverythingyouareAndeverythingyouwereYournumberhasbeencalledFightsandbattleshavebegunRevengewillsurelycomeYourhardtimesareaheadBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnowDontletyourselfdownDontletyourselfgoYourlastchancehasarrivedBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnow = result[0].rawValue
+            console.log(ChangeeverythingyouareAndeverythingyouwereYournumberhasbeencalledFightsandbattleshavebegunRevengewillsurelycomeYourhardtimesareaheadBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnowChangeeverythingyouareAndeverythingyouwereYournumberhasbeencalledFightsandbattleshavebegunRevengewillsurelycomeYourhardtimesareaheadBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnowDontletyourselfdownDontletyourselfgoYourlastchancehasarrivedBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnow)
+          }} />
           </div></center>
-          <Link href={'Escaner/escaner'}>Holap</Link>
+          <Link href={'Escaner/escaner'}>{result}</Link>
         </font>
         </div>
         </div>
