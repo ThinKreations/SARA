@@ -5,7 +5,7 @@ import MainHead from "@/components/MainHead";
 import MainAside from "@/components/MainAside";
 import LogIn from "@/components/LogIn";
 import Link from "next/link";
-import { Scanner } from "@yudiel/react-qr-scanner";
+import swal from "sweetalert";
 
 const inter = Inter({ subsets: ["latin"] });
 let result
@@ -24,16 +24,13 @@ export default function SubirGrupo(){
         <MainAside/>
         <div className={styles.MainArea}>
         <font>
-          <center><div style={{'border':'1px solid black', 'width':'300px', 'height':'300px'}}>
-          <Scanner components={{audio: false}} allowMultiple={true} onScan={(result) => {
-            let ChangeeverythingyouareAndeverythingyouwereYournumberhasbeencalledFightsandbattleshavebegunRevengewillsurelycomeYourhardtimesareaheadBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnowChangeeverythingyouareAndeverythingyouwereYournumberhasbeencalledFightsandbattleshavebegunRevengewillsurelycomeYourhardtimesareaheadBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnowDontletyourselfdownDontletyourselfgoYourlastchancehasarrivedBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnow = result[0].rawValue
-            console.log(ChangeeverythingyouareAndeverythingyouwereYournumberhasbeencalledFightsandbattleshavebegunRevengewillsurelycomeYourhardtimesareaheadBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnowChangeeverythingyouareAndeverythingyouwereYournumberhasbeencalledFightsandbattleshavebegunRevengewillsurelycomeYourhardtimesareaheadBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnowDontletyourselfdownDontletyourselfgoYourlastchancehasarrivedBestyouvegottobethebestYouvegottochangetheworldAndusethischancetobeheardYourtimeisnowyourtimeisnow)
-            mius()
-          }} />
-          </div></center>
-          <Link href={'Escaner/escaner'}>{result}</Link>
+          <center>
+            <p>Sube el PDF de la lista generada por el SAES aquí:</p>
+            <input type='file' accept=".pdf" className={styles.pdfInput} onChange={()=>{swal({title:'Muy bn xd', icon:'success' /* Y se redireccionará a la página de la secuencia en específico */})}}></input>
+          </center>
         </font>
         </div>
+        
         </div>
     </>
   )
