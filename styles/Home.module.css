@@ -5,79 +5,104 @@
   font-style: normal;
 }
 
-
+.link{
+  color: blue;
+}
 
 .container{
-  display: flex;
-  justify-content: space-between;
+  
 }
 
-.Aside{
-  width: 15vw;
-  height: 100vh;
+.Header{
+  width: 100vw;
+  height: max-content;
   min-width: 150px;
   text-align: center;
-  background-color: rgb(45,45,45);
+  background-color: rgb(45, 45, 45);
   color: white;
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
+  position: fixed;
 }
-.btnAreaAside{
-  margin-bottom: 20px;
+.btnAreaHeader{
+  margin: 10px;
+  border: 1px solid transparent;
+  width: fit-content;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
 }
-.btnSecuencia{
+.btnAreaHeader button{
+  margin: 10px;
+}
+.btnH{
   background-color: transparent;
   color:white;
-  margin: 5px;
-  border: 1px solid transparent;
-  outline: 0px;
-  border-radius: 5px;
-  font-family: Montserrat;
-}
-.btnSecuencia:hover{
-  text-decoration: underline;
-}
-.btnExit{
-  background-color: white;
-  color:black;
-  margin: 5px;
   border: 1px solid transparent;
   outline: 0px;
   padding: 5px;
-  border-radius: 5px;
-  margin-top: 25px;
   font-family: Montserrat;
-  font-size: 15px;
+  border-radius: 5px;
+  transition: 0.2s;
+}
+.btnH:hover{
+  background-color: white;
+  color: black;
+  transition: 0s;
+}
+.btnH:active{
+  background-color: white;
+  color: black;
+}
+.btnH:focus{
+  background-color: white;
+  color: black;
+}
+.btnExit{
+  width: 35px;
+  height: 35px;
+  color:black;
+  border: 1px solid white;
+  outline: 0px;
+  padding: 5px;
+  border-radius: 15px;
+  font-family: Montserrat;
+  background-image: url(../src/user.png);
+  background-size: cover;
+  filter: invert();
 }
 .btnExit:hover{
-  text-decoration: underline;
+  filter: none;
 }
 .MainArea{
   border: 1px solid transparent;
-  width: 85vw;
+  align-items: center;
   align-content: center;
   text-align: center;
 }
 
 .LogIn{
+  margin-top: 175px;
   border: 1px solid transparent;
 }
 
 .logInput{
-  font-size: 20px;
+  font-size: 15px;
+  padding: 3px;
+  font-family: Montserrat;
   margin: 30px;
   border: none;
   outline: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid transparent;
   background-color: rgb(230,230,230);
 }
 .logInput:hover{
+  border-bottom: 1px solid black;
   background-color: rgb(210,210,210);
 }
 .logBtn{
   outline: none;
-  border: 1px solid rgb(59, 190, 59);
+  border: 1px solid rgb(55, 200, 55);
   background-color: rgba(80, 230, 80, 0.3);
   border-radius: 7px;
   font-size: 30px;
@@ -87,22 +112,58 @@
   color:white;
   background-color: rgb(59, 190, 59);
 }
+.btnRedirec{
+  margin: 20px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}.btnRedirec:hover{
+  text-decoration: underline;
+}
+
+.tituloClase{
+  margin-top: 90px;
+}
+
 .Table{
-  font-size: 1.2vw;
+  margin-top: 10px;
+  font-size: 15px;
   width: max-content;
 }
 .Table *{
-background-color: rgb(210,210,210);
-padding: 3px;
+  padding: 5px;
+  padding-top:0px;
+  padding-bottom:0px;
+  
+}
+.Table td{
+  border-left: 1px solid rgb(200,200,200);
+}
+/*Para importados*/
+.TableImport{
+  margin-top: 25px;
+  font-size: 1.2vw;
+  width: max-content;
+  border-bottom: 1px solid rgb(200,200,200);
 }
 
+.btnAddAlumno{
+  background-color: green;
+  border: 1px solid transparent;
+  outline: none;
+  padding: 5px;
+  color: white;
+  font-family: Montserrat;
+  border-radius: 5px;
+  width: 100px;
+}
 
 .scannerDiv{
   border: 1px solid transparent;
   margin-bottom: 15px;
   margin-top: 25px;
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
 }
 
 .pdfInput{
@@ -116,7 +177,7 @@ padding: 3px;
     display: flex;
     flex-direction: column;
   }
-  .Aside{
+  .Header{
     height: fit-content;
     display: flex;
     flex-direction: row;

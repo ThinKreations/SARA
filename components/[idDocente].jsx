@@ -1,10 +1,18 @@
 import Link from "next/link"
 import styles from "@/styles/Home.module.css"
+import Router from "next/router";
+
 export default function Docente(){
+
+
+
     return(
         <>
         {/* Aquí irá la tabla dinámica basada en los datos de la id de la secuencia/UA dada */}
+        <div style={{'margin':'175px'}}>
         <center>
+            <h1>{`Hola, {nombreProfesor}`}</h1>
+            <h3>Fecha completa y hora</h3>
         <table className={styles.Table}>
             <caption>
                 {`Secencias asignadas al profesor`}
@@ -27,7 +35,16 @@ export default function Docente(){
                 </tr>
             </tbody>
         </table>
+
+        <button 
+        className={styles.btnAddAlumno} 
+        style={{'margin':'25px'}} 
+        onClick={()=>{Router.push('/subirGrupo')}}>
+            <b>+ Grupo</b>
+        </button>
         </center>
+        </div>
+
         </>
     )
 }
