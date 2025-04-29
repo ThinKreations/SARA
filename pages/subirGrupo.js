@@ -21,7 +21,7 @@ export default function SubirGrupo(){
       formData.append('file', file);
     
       try {
-        const response = await fetch("http://127.0.0.1:8000/grupo/", {
+        const response = await fetch("https://upiicsara-225fbcffb78e.herokuapp.com/grupo/", {
           method: "POST",
           body: formData,
         });

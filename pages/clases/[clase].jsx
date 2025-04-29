@@ -8,33 +8,42 @@ import { Scanner } from '@yudiel/react-qr-scanner';
 import LogIn from "@/components/LogIn";
 import swal from 'sweetalert';
 const inter = Inter({ subsets: ["latin"] });
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function Clase(){
+export default function Clase({clase}){
   const router = useRouter();
   const {idClase} = router.query;
 
   const [lista,setLista]=useState([]);
+  const [isLogged, setIsLogged]=useState(null)
+  const [grupos, setGrupos] = useState([])
 
-  const mius = ()=>{
-    
-
-
-    let audio = new Audio("/src/huh.mp3")
-    console.log(audio)
-    audio.play
-  }
-
-  
-
-  let isLogged=true;
+  useEffect(() =>{
+    const logged = localStorage.getItem('isLogged');
+    if (logged !== 'true'){
+      router.replace('/'); // Redirigir sin historial
+      swal({ title: "Inicia Sesión", icon: "error" });
+      
+    } else {
+      setIsLogged(true);
+      fetch('../api/clases/',{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => setGrupos(data))
+        .catch((err) => console.error('Error al obtener grupos:', err))
+    }
+  }, [router]);
   return (
     <>
-      <MainHead title='SARA'/>
+      <MainHead title='SARA' />
       <div className={styles.container}>
-      <MainAside/>
+      <MainAside grupos={grupos}/>
       <div className={styles.MainArea}>
-          <div className={styles.tituloClase}>
+        <div className={styles.tituloClase}>
             <h2>{`Unidad de Aprendizaje - Secuencia`}</h2>
           </div>
         <div style={{'display':'flex', 'justifyContent':'space-between'}}> {/* Contenedor de ambas columnas, izq=tabla de clase, der=scanner con lista de registros */}

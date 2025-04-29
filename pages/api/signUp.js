@@ -5,18 +5,17 @@ export default async function handler(req, res){
     }
     try{
         console.log('Body recibido:', req.body);
-        const {numemp, password} = req.body
-        const response = await fetch('https://upiicsara-225fbcffb78e.herokuapp.com/login/',{
+        const {numemp, nombreProfesor, correo, password} = req.body
+        const response = await fetch('https://upiicsara-225fbcffb78e.herokuapp.com/registro',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({numemp, password})
+            body: JSON.stringify({numemp, nombreProfesor, correo, password})
         })
         const data = await response.json()
         if (!response.ok){
             return res.status(response.status).json({ message: 'Error al iniciar', error: data })
-            
         }
         return res.status(200).json({message: 'Inicio exitoso!', data: data})
     }catch (error){

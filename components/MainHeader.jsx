@@ -4,27 +4,49 @@ import styles from '@/styles/Home.module.css'
 import Image from "next/image";
 import user from '@/src/user.png'
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import { useState } from "react";
 
-export default function MainHeader(){
+export default function MainHeader({ grupos }) {
     let numDigits = Math.floor(Math.random() * 8) + 1;
     let randomNumber = Math.floor(Math.random() * Math.pow(10, numDigits));
-    return ( 
+
+    return (
         <>
-        <header className={styles.Header}>
-            <h1 style={{'margin':'10px','alignContent':'center'}}><Link href={'/'} style={{'color':'white', 'textDecoration':'none'}}>SARA</Link></h1>
-            <div className={styles.btnAreaHeader}> {/* por el flex-reverse, las cosas están acomodadas al revés, pero automáticamente se ordenan */}
-                
-                <button className={styles.btnH} onClick={()=>{Router.push('/')}}>Inicio</button>
-                <button className={styles.btnH} onClick={()=>{Router.push('/subirGrupo')}}>+ Grupo</button>
-                <select className={styles.btnH} style={{'maxWidth':'180px', 'textWrap':'wrap', 'wordBreak':'break-word'}} onChange={()=>{Router.push(`/clases/${randomNumber}`)}}>
-                    <option>Seleccionar secuencia</option>
-                    <option>XDDDDDDDDDDDDDDDDDDDDDDd</option> {/* Se generarán dinámicamente dependiendo de las secuencias del profesor */}
-                </select>
-                
-                <button className={styles.btnExit}></button>
-                
+            <header className={styles.Header}>
+                <h1 style={{ 'margin': '10px', 'alignContent': 'center' }}>
+                    <Link href={'/'} style={{ 'color': 'white', 'textDecoration': 'none' }}>SARA</Link>
+                </h1>
+                <div className={styles.btnAreaHeader}>
+                    <button className={styles.btnH} onClick={() => { Router.push('/') }}>Inicio</button>
+                    <button className={styles.btnH} onClick={() => { Router.push('/subirGrupo') }}>+ Grupo</button>
+                    <select className={styles.btnH} style={{ maxWidth: '180px', textWrap: 'wrap', wordBreak: 'break-word' }} onChange={(e) =>{
+                            console.log('Valor seleccionado:', e.target.value)
+                            const selectedValue = e.target.value.split('-')
+                            const secuencia = selectedValue[0].trim()
+                            const grupoSeleccionado = grupos.find(grupo=>grupo.Secuencia === secuencia)
+                            if (grupoSeleccionado) {
+                                const {Secuencia, Periodo, ID_Materia}=grupoSeleccionado
+                                console.log('Grupo seleccionado:', grupoSeleccionado)
+                                Router.push(`/clases/${Secuencia}${Periodo}${ID_Materia}`)
+                            }else{
+                                console.log('Grupo no encontrado')
+                            }
+                        }}>
+                        <option disabled selected>Seleccionar secuencia</option>
+                        {grupos && grupos.length > 0 ? (
+                            grupos.map((grupo, index) => (
+                                <option key={index} value={`${grupo.Secuencia}-${grupo.Materia}`}>
+                                    {grupo.Secuencia} - {grupo.Materia}
+                                </option>
+                            ))
+                        ):(
+                            <option disabled>No hay secuencias disponibles</option>
+                        )}
+                    </select>
+                    <button className={styles.btnExit}></button>
                 </div>
-        </header>
+            </header>
         </>
     )
 }

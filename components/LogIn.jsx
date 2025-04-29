@@ -5,29 +5,33 @@ import { useState } from 'react';
 
 export default function LogArea(){
     const [numemp, setNumemp]=useState('')
+    const [nombre, setNombre]=useState('')
+    const [correo, setCorreo]=useState('')
     const [pass, setPass]=useState('')
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e) =>{
         e.preventDefault()
-        console.log({ numemp, pass })  // Añade esto para ver los datos que estás enviando
         try {
-            const response = await fetch('/api/login', {
+            const response = await fetch('api/login',{
                 method: 'POST',
-                headers: {
+                headers:{
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     numemp: numemp,
+                    nombreProfesor: nombre,
+                    correo: correo,
                     password: pass
                 })
+                
             })
-            if (response.ok) {
+            if (response.ok){
                 console.log('Login exitoso')
                 localStorage.setItem('isLogged', 'true')
                 localStorage.setItem('numemp', numemp)
                 window.location.reload()
             } else {
-                console.log('Error en el login')
+                console.log('Error en el registro', response)
             }
         } catch (error) {
             console.error('Error de conexión:', error)
@@ -44,9 +48,6 @@ export default function LogArea(){
                 <input type='password' className={styles.logInput} value={pass} onChange={(e)=>setPass(e.target.value)}/><br/>
                 <button type="submit" className={styles.logBtn}>Acceder</button>
                 <br/>
-                <button type="button" className={styles.btnRedirec}>
-                    Si no tienes cuenta, <Link className={styles.link} href="/register">regístrate aquí</Link>.
-                </button>
             </form>
         </>
     )

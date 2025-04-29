@@ -2,10 +2,8 @@ import Link from "next/link"
 import styles from "@/styles/Home.module.css"
 import Router from "next/router";
 
-export default function Docente(){
-
-
-
+export default function Docente(grupos){
+    console.log(grupos)
     return(
         <>
         {/* Aquí irá la tabla dinámica basada en los datos de la id de la secuencia/UA dada */}
