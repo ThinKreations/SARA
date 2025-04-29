@@ -9,10 +9,6 @@
   color: blue;
 }
 
-.container{
-  
-}
-
 .Header{
   width: 100vw;
   height: max-content;
@@ -43,7 +39,7 @@
   padding: 5px;
   font-family: Montserrat;
   border-radius: 5px;
-  transition: 0.2s;
+  transition: 0.3s ease-in-out;
 }
 .btnH:hover{
   background-color: white;
@@ -127,9 +123,11 @@
 
 .Table{
   margin-top: 10px;
-  font-size: 15px;
+  font-size: 12px;
   width: max-content;
+  overflow-y: auto;
 }
+
 .Table *{
   padding: 5px;
   padding-top:0px;
@@ -172,6 +170,45 @@
   margin-bottom: 15px;
 }
 
+.cuadroIzq{
+  width: 80vw;
+  overflow-y: auto;
+  border: 1px solid transparent;
+}
+.cuadroIzq::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.cuadroIzq::-webkit-scrollbar:vertical {
+  width:10px;
+  background-color: transparent;
+  
+}
+
+.cuadroIzq::-webkit-scrollbar-button:increment,.productoRelacionadoC::-webkit-scrollbar-button {
+  display: none;
+} 
+
+.cuadroIzq::-webkit-scrollbar-thumb {
+  background-color: rgb(175,175,175);
+  border-radius: 3px;
+}
+.cuadroIzq::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(140,140,140);
+}
+
+.classContainer{
+  display:flex;
+  justify-content:space-between
+}
+.scannerCont{
+  width:250px;
+  height:75vh;
+  max-height:75vh;
+  border-left:1px solid rgb(200,200,200);
+  text-align:center
+}
+
 @media screen and (max-width: 600px) {
   .container{
     display: flex;
@@ -192,5 +229,14 @@
   .Table{
     margin: 10px;
     font-size: 2vw;
+  }
+  .classContainer{
+    flex-direction: column-reverse;
+  }
+  .scannerCont{
+    width: 100vw;
+  }
+  .scannerDiv{
+    width: 80%;
   }
 }

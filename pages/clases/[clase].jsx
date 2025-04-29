@@ -9,24 +9,32 @@ import LogIn from "@/components/LogIn";
 import swal from 'sweetalert';
 const inter = Inter({ subsets: ["latin"] });
 import { useState, useEffect } from 'react';
+import { obtenerClase } from '../api/clases';
 
 export default function Clase({clase}){
   const router = useRouter();
-  const {idClase} = router.query;
-
+  const idClase = router.query.clase;
   const [lista,setLista]=useState([]);
   const [isLogged, setIsLogged]=useState(null)
   const [grupos, setGrupos] = useState([])
+  const [alumnos,setAlumnos]=useState([])
+  const [asistencias, setAsistencias] = useState([])
+  const [fechas, setFechas] = useState([])
+  const [secuencia, setSecuencia] = useState([])
+  const [periodo, setPeriodo] = useState([])
+  const [idMateria, setIdMateria] = useState([])
+  const [materia, setMateria] = useState([])
+  const [boletasEscaneadas, setBoletasEscaneadas] = useState([])
 
   useEffect(() =>{
+    if (!router.isReady) return;
     const logged = localStorage.getItem('isLogged');
-    if (logged !== 'true'){
-      router.replace('/'); // Redirigir sin historial
-      swal({ title: "Inicia Sesión", icon: "error" });
-      
+    if (logged !== 'true') {
+      router.replace('/');
+      swal({ title: "Inicia Sesión", icon: "error" })
     } else {
       setIsLogged(true);
-      fetch('../api/clases/',{
+      fetch('../api/clases/', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -34,9 +42,22 @@ export default function Clase({clase}){
       })
         .then((res) => res.json())
         .then((data) => setGrupos(data))
-        .catch((err) => console.error('Error al obtener grupos:', err))
+        .catch((err) => console.error('Error al obtener grupos:', err));
+        if (idClase) {
+          obtenerClase(idClase).then((claseData) => {
+            setAlumnos(claseData.alumnos|| [] )
+            setAsistencias(claseData.asistencias || [])
+            setFechas(claseData.fechas || [])
+            const clase = claseData.clases?.[0] || {}
+            setSecuencia(clase.Secuencia)
+            setPeriodo(clase.Periodo)
+            setIdMateria(clase.ID_Materia)
+            setMateria(clase.Materia)
+          }).catch(err => console.error("Error al obtener clase:", err))
+        }
     }
-  }, [router]);
+  }, [router.isReady, idClase]);
+  const fechaHoy = new Date().toISOString().split('T')[0]
   return (
     <>
       <MainHead title='SARA' />
@@ -44,83 +65,103 @@ export default function Clase({clase}){
       <MainAside grupos={grupos}/>
       <div className={styles.MainArea}>
         <div className={styles.tituloClase}>
-            <h2>{`Unidad de Aprendizaje - Secuencia`}</h2>
+            <h3>{`Unidad de Aprendizaje - Secuencia`}</h3>
           </div>
         <div style={{'display':'flex', 'justifyContent':'space-between'}}> {/* Contenedor de ambas columnas, izq=tabla de clase, der=scanner con lista de registros */}
-          <div style={{'height':'75vh', 'maxHeight':'75vh',  'display':'flex', 'flexDirection':'column', 'marginLeft':'20px'}}> {/* Lado izquierdo xd */}
-            <button className={styles.btnAddAlumno}><b>+ Alumno</b></button>
+          <div style={{'height':'75vh', 'maxHeight':'75vh',  'display':'flex', 'flexDirection':'column', 'marginLeft':'20px'}} className={styles.cuadroIzq}> {/* Lado izquierdo xd */}
             <table className={styles.Table}>
               <thead>
                 <tr>
                   <th scope="col">N.L.</th>
                   <th scope="col">Boleta</th>
                   <th scope="col">Nombre Completo</th>
-                  <th scope="col">03/04</th> {/* Estos son los q se generan automáticamente xd */}
+                  {fechas.map((fecha, indexFecha) => (
+                    <th key={indexFecha}>{fecha.Fecha}</th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
-                {
-                  (
-                    <tr>
-                  <th>1</th>
-                  <td>2024600000</td>
-                  <td>Juárez Castillo Rubén Gabriel</td>
-                  <td>
-                    <center>
-                      <input
-                        type="checkbox"
-                        className={styles.check}
-                      />
-                    </center>
-                  </td>
-                </tr>
-                  )
-                }
-                
+                {alumnos.map((alumno, index) => (
+                  <tr key={index}>
+                    <th>{alumno.NumeroLista}</th>
+                    <td>{alumno.Boleta}</td>
+                    <td style={{'textAlign':'justify'}}>{alumno.Nombre}</td>
+                    {fechas.map((fecha, i) => {
+                      const asistencia = asistencias.find(
+                        (a) => a.boleta === alumno.Boleta && a.fecha === fecha
+                      )
+                      return (
+                        <td key={i}>
+                          <center>
+                          <input type="checkbox" className={styles.check}
+                            checked={
+                              (boletasEscaneadas.includes(String(alumno.Boleta)) &&
+                              new Date(fecha.Fecha).toISOString().split('T')[0] === fechaHoy) ||
+                              asistencia?.asistio === true
+                            }
+                          />
+                          </center>
+                        </td>
+                      )
+                    })}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
           <div style={{'width':'250px','height':'75vh', 'maxHeight':'75vh','borderLeft':'1px solid rgb(200,200,200)', 'textAlign':'center'}}> {/* Lado derecho xd */}
             <center>
             <div className={styles.scannerDiv}>
-            <Scanner scanDelay={2500} allowMultiple={true} onScan={async (result) =>{
+            <Scanner scanDelay={3000} allowMultiple={true} onScan={async (result) =>{
               try {
-                let xd = result[0].rawValue
+                let xd = result[0].rawValue;
                 const response = await fetch('/api/fetchHtml', {
                   method: 'POST',
                   headers: {
-                    'Content-Type':'application/json',
+                    'Content-Type': 'application/json',
                   },
-                  body: JSON.stringify({url: xd}),
+                  body: JSON.stringify({ url: xd }),
                 })
-
-                if (!response.ok){
-                  throw new Error('No se pudo leer la página')
-                }
+                if (!response.ok) throw new Error('No se pudo leer la página');
                 const data = await response.json()
-                const htmlText = data.html
-                const regexd = /([0-9][0-9]|PE)[0-9]{8}/; {/* Aquí está la regex de boleta, 2 numeros del 0 al 9 o "PE", posteriormente, 8 números del 0 al 9 */}
-                const match = htmlText.match(regexd)
-                if (match){
-                  const datoExtraido = match[0]
-                  console.log('Boleta:', datoExtraido)
-                  setLista(prev =>[...prev, datoExtraido]);{/* Aquí se agregan a una lista para imprimirlos debajo del scanner, elemento meramente visual */} 
-                  swal({
-                    icon: 'success',
-                    title: `Boleta: ${datoExtraido}`,
-                    timer: 2000,
-                  });
-
+                const htmlText = data.html;
+                const regexd = /([0-9]{2}|PE)[0-9]{8}/; 
+                const match = htmlText.match(regexd);
+                if (match) {
+                  const datoExtraido = match[0].trim()
+                  //console.log('Boleta escaneada:', datoExtraido);
+                  //console.log('Boletas:', alumnos.map(a => a.Boleta))
+                  const boletaExiste = alumnos.some(
+                    (alumno) => String(alumno.Boleta).trim() === datoExtraido
+                  )
+                  if (boletaExiste) {
+                    setLista((prev) => [...prev, datoExtraido])
+                    setBoletasEscaneadas((prev) =>
+                      prev.includes(datoExtraido) ? prev : [...prev, datoExtraido]
+                    )
+                    swal({
+                      icon: 'success',
+                      title: `Boleta encontrada: ${datoExtraido}`,
+                      text: fechaHoy,
+                      timer: 2000,
+                    })
+                  }else{
+                    swal({
+                      icon: 'warning',
+                      title: `Boleta no encontrada: ${datoExtraido}`,
+                      text: 'Este alumno no está en la lista',
+                      timer: 2000,
+                    })
+                  }
                 } else {
-                  console.log('No se encontró el dato')
                   swal({
                     icon: 'warning',
-                    title: 'No se encontró el dato',
+                    title: 'No se encontró la boleta en el QR',
                     timer: 1500,
                   })
                 }
-              } catch (error){
-                console.error('Error leyendo el QR:', error)
+              } catch (error) {
+                console.error('Error leyendo el QR:', error);
                 swal({
                   icon: 'error',
                   title: 'Error al leer el QR',
@@ -128,14 +169,14 @@ export default function Clase({clase}){
                 })
               }
             }}
-          />
+            />
           </div >
             <div>
             <ul>
-              {lista.map((boleta, index)=>(
-                <li key={index}>{boleta}</li>
-              ))}{/* Aquí ps se imprimen los que vayan pasando lista */}
-            </ul>
+            {[...new Set(lista)].map((boleta, index) => (
+              <li key={index}>{boleta}</li>
+            ))}
+          </ul>
             </div> 
             
             </center>

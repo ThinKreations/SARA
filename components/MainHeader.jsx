@@ -20,7 +20,7 @@ export default function MainHeader({ grupos }) {
                 <div className={styles.btnAreaHeader}>
                     <button className={styles.btnH} onClick={() => { Router.push('/') }}>Inicio</button>
                     <button className={styles.btnH} onClick={() => { Router.push('/subirGrupo') }}>+ Grupo</button>
-                    <select className={styles.btnH} style={{ maxWidth: '180px', textWrap: 'wrap', wordBreak: 'break-word' }} onChange={(e) =>{
+                    <select className={styles.btnH} style={{ maxWidth: '250px', textWrap: 'wrap', wordBreak: 'break-word', borderBottom:'1px solid rgb(80,80,80)', borderRadius:'0px' }} onChange={(e) =>{
                             console.log('Valor seleccionado:', e.target.value)
                             const selectedValue = e.target.value.split('-')
                             const secuencia = selectedValue[0].trim()

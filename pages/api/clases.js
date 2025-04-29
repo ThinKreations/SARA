@@ -18,11 +18,9 @@ export default async function obtenerGrupos(req, res) {
 export const obtenerClase = async (idClase)=>{
     const res=await fetch(`https://upiicsara-225fbcffb78e.herokuapp.com/grupo/${idClase}`,{
         method: 'GET',
-        mode: 'cors',
-        headers:{
-            'Content-Type':'application/json'
-        }
+        mode: 'cors'
     })
     const clase=await res.json()
+    console.log(idClase)
     return clase
 }
