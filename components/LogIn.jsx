@@ -12,7 +12,7 @@ export default function LogArea(){
     const handleSubmit = async (e) =>{
         e.preventDefault()
         try {
-            const response = await fetch('api/login',{
+            const response = await fetch('/api/login',{
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json'
@@ -23,13 +23,15 @@ export default function LogArea(){
                 })
                 
             })
+            const data = await response.json()
+            //console.log(response)
             if (response.ok){
-                console.log('Login exitoso')
+                console.log('Login exitoso', data)
                 localStorage.setItem('isLogged', 'true')
                 localStorage.setItem('numemp', numemp)
                 window.location.reload()
             } else {
-                console.log('Error en el registro', response)
+                console.log('Error en el inicio', response)
             }
         } catch (error) {
             console.error('Error de conexión:', error)

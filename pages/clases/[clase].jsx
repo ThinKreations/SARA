@@ -86,7 +86,6 @@ export default function Clase({clase}){
             <Scanner scanDelay={2500} allowMultiple={true} onScan={async (result) =>{
               try {
                 let xd = result[0].rawValue
-                console.log('URL: ', xd)
                 const response = await fetch('/api/fetchHtml', {
                   method: 'POST',
                   headers: {

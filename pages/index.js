@@ -27,8 +27,8 @@ export default function Home() {
         .then((data) => setGrupos(data))
         .catch((err) => console.error('Error al obtener grupos:', err))
     }
+    
   },[])
-  console.log('Grupos: ', grupos)
 
   return(
     <>
