@@ -19,8 +19,6 @@ export default function LogArea(){
                 },
                 body: JSON.stringify({
                     numemp: numemp,
-                    nombreProfesor: nombre,
-                    correo: correo,
                     password: pass
                 })
                 
