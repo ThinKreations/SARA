@@ -44,7 +44,10 @@ export default function MainHeader({ grupos }) {
                             <option disabled>No hay secuencias disponibles</option>
                         )}
                     </select>
-                    <button className={styles.btnExit}></button>
+                    <button className={styles.btnExit} onClick={()=>{
+                        localStorage.clear()
+                        window.location.reload()
+                    }}>Salir</button>
                 </div>
             </header>
         </>

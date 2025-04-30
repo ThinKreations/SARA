@@ -7,11 +7,28 @@ import LogIn from "@/components/LogIn";
 import Link from "next/link";
 import swal from "sweetalert";
 import FileUploader from "@/components/FileUploader";
+import { useEffect, useState } from "react";
 //import handleUpload from './api/clases'
 const inter = Inter({ subsets: ["latin"] })
 let result
 
+
 export default function SubirGrupo(){
+    const [isLogged, setIsLogged] = useState(false)
+    useEffect(() => {
+      const logged = localStorage.getItem('isLogged');
+      if (logged === 'true') {
+        setIsLogged(true);
+      } else {
+        swal({
+          title: "Acceso denegado",
+          text: "Debes iniciar sesión para subir un archivo.",
+          icon: "warning",
+        }).then(() => {
+          window.location.href = '/'; // Redirige si no está logueado
+        });
+      }
+    }, []);
     const handleUpload = async (file) => {
       const formData = new FormData();
       formData.append('file', file);

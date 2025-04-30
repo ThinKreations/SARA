@@ -104,7 +104,7 @@ export default function Clase({clase}){
         <div className={styles.tituloClase}>
             <h3>{`${materia} - ${secuencia}`}</h3>
           </div>
-        <div style={{'display':'flex', 'justifyContent':'space-between'}}> {/* Contenedor de ambas columnas, izq=tabla de clase, der=scanner con lista de registros */}
+        <div style={{'display':'flex', 'justifyContent':'space-between'}} className={styles.classContainer}> {/* Contenedor de ambas columnas, izq=tabla de clase, der=scanner con lista de registros */}
           <div style={{'height':'75vh', 'maxHeight':'75vh',  'display':'flex', 'flexDirection':'column', 'marginLeft':'20px'}} className={styles.cuadroIzq}> {/* Lado izquierdo xd */}
             <table className={styles.Table}>
               <thead>
@@ -155,7 +155,7 @@ export default function Clase({clase}){
               </tbody>
             </table>
           </div>
-          <div style={{'width':'250px','height':'75vh', 'maxHeight':'75vh','borderLeft':'1px solid rgb(200,200,200)', 'textAlign':'center'}}> {/* Lado derecho xd */}
+          <div style={{'width':'250px','height':'75vh', 'maxHeight':'75vh','borderLeft':'1px solid rgb(200,200,200)', 'textAlign':'center'}} className={styles.scannerCont}> {/* Lado derecho xd */}
             <center>
             <div className={styles.scannerDiv}>
             <Scanner scanDelay={3000} allowMultiple={true} onScan={async (result) =>{

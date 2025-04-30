@@ -48,6 +48,7 @@ export default function LogArea(){
                 <input type='password' className={styles.logInput} value={pass} onChange={(e)=>setPass(e.target.value)}/><br/>
                 <button type="submit" className={styles.logBtn}>Acceder</button>
                 <br/>
+                <Link href={'signUp'} style={{color:'blue', textDecoration:'none', margin:'15px'}}><p>Registrate aquí.</p></Link>
             </form>
         </>
     )
