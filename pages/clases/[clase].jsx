@@ -1,11 +1,10 @@
-import { useRouter } from 'next/router';  // Usar useRouter
+import { Router, useRouter } from 'next/router';  // Usar useRouter
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import MainHead from "@/components/MainHead";
 import MainAside from "@/components/MainHeader";
 import { Scanner } from '@yudiel/react-qr-scanner';
-import LogIn from "@/components/LogIn";
 import swal from 'sweetalert';
 const inter = Inter({ subsets: ["latin"] });
 import { useState, useEffect } from 'react';
@@ -24,7 +23,10 @@ export default function Clase({clase}){
   const [periodo, setPeriodo] = useState([])
   const [idMateria, setIdMateria] = useState([])
   const [materia, setMateria] = useState([])
+  const [asistenciaManual, setAsistenciaManual]=useState([])
   const [boletasEscaneadas, setBoletasEscaneadas] = useState([])
+  const [registro, setRegistro]=useState({})
+  const [isChecked, setIsChecked]=useState(false)
 
   useEffect(() =>{
     if (!router.isReady) return;
@@ -45,6 +47,7 @@ export default function Clase({clase}){
         .catch((err) => console.error('Error al obtener grupos:', err));
         if (idClase) {
           obtenerClase(idClase).then((claseData) => {
+            console.log(claseData)
             setAlumnos(claseData.alumnos|| [] )
             setAsistencias(claseData.asistencias || [])
             setFechas(claseData.fechas || [])
@@ -58,14 +61,48 @@ export default function Clase({clase}){
     }
   }, [router.isReady, idClase]);
   const fechaHoy = new Date().toISOString().split('T')[0]
+  //console.log(asistencias)
+  const subirAsistencia = async(secuencia, periodo, idMateria, datoExtraido)=>{
+    //console.log({secuencia:secuencia, periodo:periodo, idMateria:idMateria, boleta:datoExtraido})
+    const res = await fetch('/api/asistir',{
+      method:'POST',
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({secuencia:secuencia, periodo:periodo, idMateria:idMateria, boleta:datoExtraido})
+    })
+    if(res.ok){
+      console.log('Jaló', res)
+      router.reload()
+    }else{
+      console.log('No jaló', res)
+    }
+  }
+  const modAsistencia= async(secuencia, periodo, idMateria, boleta, fecha, cambio)=>{
+    //console.log(secuencia, periodo, idMateria, boleta, fecha, cambio)
+    const resp = await fetch('/api/asistir',{
+      method:'PUT',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({secuencia:secuencia, periodo:periodo, idMateria:idMateria, boleta:boleta, fecha:fecha, cambio: cambio})
+    })
+    if(resp.ok){
+      console.log('Jaló', resp)
+      router.reload()
+    }else{
+      console.log('No jaló', resp)
+    }
+  }
+  
   return (
     <>
-      <MainHead title='SARA' />
+      <MainHead title={materia} />
       <div className={styles.container}>
       <MainAside grupos={grupos}/>
       <div className={styles.MainArea}>
         <div className={styles.tituloClase}>
-            <h3>{`Unidad de Aprendizaje - Secuencia`}</h3>
+            <h3>{`${materia} - ${secuencia}`}</h3>
           </div>
         <div style={{'display':'flex', 'justifyContent':'space-between'}}> {/* Contenedor de ambas columnas, izq=tabla de clase, der=scanner con lista de registros */}
           <div style={{'height':'75vh', 'maxHeight':'75vh',  'display':'flex', 'flexDirection':'column', 'marginLeft':'20px'}} className={styles.cuadroIzq}> {/* Lado izquierdo xd */}
@@ -93,11 +130,20 @@ export default function Clase({clase}){
                       return (
                         <td key={i}>
                           <center>
-                          <input type="checkbox" className={styles.check}
+                            <input type="checkbox" className={styles.check}
+                            onChange={(e) => {
+                              const checked = e.target.checked;
+                              const boleta = alumno.Boleta;
+                              const fechaXD = new Date(fecha.Fecha).toISOString().split('T')[0];
+                              modAsistencia(secuencia, periodo, idMateria, boleta, fechaXD, checked);
+                            }}
                             checked={
-                              (boletasEscaneadas.includes(String(alumno.Boleta)) &&
-                              new Date(fecha.Fecha).toISOString().split('T')[0] === fechaHoy) ||
-                              asistencia?.asistio === true
+                              asistencias.some(
+                                (a) => {
+                                  const fechaXD = new Date(fecha.Fecha).toISOString().split('T')[0];
+                                  return a.Boleta === alumno.Boleta&&a.Fecha===fechaXD && a.Asistencia ===true
+                                }
+                              )
                             }
                           />
                           </center>
@@ -127,10 +173,8 @@ export default function Clase({clase}){
                 const htmlText = data.html;
                 const regexd = /([0-9]{2}|PE)[0-9]{8}/; 
                 const match = htmlText.match(regexd);
-                if (match) {
+                if (match){
                   const datoExtraido = match[0].trim()
-                  //console.log('Boleta escaneada:', datoExtraido);
-                  //console.log('Boletas:', alumnos.map(a => a.Boleta))
                   const boletaExiste = alumnos.some(
                     (alumno) => String(alumno.Boleta).trim() === datoExtraido
                   )
@@ -145,7 +189,9 @@ export default function Clase({clase}){
                       text: fechaHoy,
                       timer: 2000,
                     })
-                  }else{
+
+                    subirAsistencia(secuencia, periodo, idMateria, datoExtraido)
+                    }else{
                     swal({
                       icon: 'warning',
                       title: `Boleta no encontrada: ${datoExtraido}`,
@@ -178,7 +224,6 @@ export default function Clase({clase}){
             ))}
           </ul>
             </div> 
-            
             </center>
           </div>
         </div>
@@ -187,3 +232,4 @@ export default function Clase({clase}){
     </>
   )
 }
+/* Si no me equivoco, sólo tienes que hacer la petición para el /api/asistir.js, es decir, la función que hace fetch a esa dirección sólo junta los datos requeridos, y la función de asistir.js que por cierto está mal xd, esa tiene que hacer fetch al url de HEROKU */

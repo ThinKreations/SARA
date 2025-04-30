@@ -118,7 +118,7 @@
 }
 
 .tituloClase{
-  margin-top: 90px;
+  margin-top: 85px;
 }
 
 .Table{
@@ -174,27 +174,6 @@
   width: 80vw;
   overflow-y: auto;
   border: 1px solid transparent;
-}
-.cuadroIzq::-webkit-scrollbar {
-  -webkit-appearance: none;
-}
-
-.cuadroIzq::-webkit-scrollbar:vertical {
-  width:10px;
-  background-color: transparent;
-  
-}
-
-.cuadroIzq::-webkit-scrollbar-button:increment,.productoRelacionadoC::-webkit-scrollbar-button {
-  display: none;
-} 
-
-.cuadroIzq::-webkit-scrollbar-thumb {
-  background-color: rgb(175,175,175);
-  border-radius: 3px;
-}
-.cuadroIzq::-webkit-scrollbar-thumb:hover {
-  background-color: rgb(140,140,140);
 }
 
 .classContainer{

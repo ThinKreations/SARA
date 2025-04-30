@@ -12,7 +12,6 @@ const inter = Inter({ subsets: ["latin"] })
 export default function Home() {
   const [isLogged, setIsLogged] = useState(false)
   const [grupos, setGrupos] = useState([])
-
   useEffect(() =>{
     const logged = localStorage.getItem('isLogged')
     if (logged === 'true'){
@@ -27,7 +26,6 @@ export default function Home() {
         .then((data) => setGrupos(data))
         .catch((err) => console.error('Error al obtener grupos:', err))
     }
-    
   },[])
 
   return(
@@ -36,7 +34,7 @@ export default function Home() {
       <div className={styles.container}>
         <MainHeader grupos={grupos} />
         <div className={styles.MainArea}>
-          {isLogged?<Docente />:<LogIn setIsLogged={setIsLogged}/>}
+          {isLogged?<Docente grupos={grupos} />:<LogIn setIsLogged={setIsLogged}/>}
         </div>
       </div>
     </>

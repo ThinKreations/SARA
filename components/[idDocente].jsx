@@ -3,19 +3,26 @@ import styles from "@/styles/Home.module.css"
 import Router from "next/router";
 
 export default function Docente(grupos){
-    console.log(grupos)
+    const fechaHoy = new Date().toISOString().split('T')[0]
     return(
         <>
-        {/* Aquí irá la tabla dinámica basada en los datos de la id de la secuencia/UA dada */}
         <div style={{'margin':'175px'}}>
         <center>
-            <h1>{`Hola, {nombreProfesor}`}</h1>
-            <h3>Fecha completa y hora</h3>
-        <table className={styles.Table}>
+            <h3 style={{color:'rgb(100,100,100)'}}>Fecha: {fechaHoy}</h3>
+        <table className={styles.Table} style={{marginTop:'20px'}}>
             <caption>
-                {`Secencias asignadas al profesor`}
+                {`Grupos registrados:`}
             </caption> 
             <thead>
+                {grupos && grupos.length > 0 ? (
+                    grupos.map((grupo, index) => (
+                    <option key={index} value={`${grupo.Secuencia}-${grupo.Materia}`}>
+                            {grupo.Secuencia} | {grupo.Materia}
+                    </option>
+                    ))
+                ):(
+                    <option disabled>No hay secuencias disponibles</option>
+                )}
                 <tr>
                     <th scope="col">Secuencia</th>
                     <th scope="col">Materia</th>
@@ -25,17 +32,19 @@ export default function Docente(grupos){
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                {//Aquí se hace lo de grupos.map o algo así xd pa imprimir los grupos del profesor, solo sustituyes el contenido de los th's
+                    <tr>
                     <th scope="row">4CM41</th>
                     <td scope="row">Teoría de la computación y compiladoress</td>
                     <td scope="row">7:00-9:00</td>
                     <td scope="row"><center>40</center></td>
                 </tr>
+                }
             </tbody>
         </table>
-
+        {/* Este botón aunque en styles dice addAlumno en realidad sólo es un boton verde xd */}
         <button 
-        className={styles.btnAddAlumno} 
+        className={styles.btnAddAlumno}
         style={{'margin':'25px'}} 
         onClick={()=>{Router.push('/subirGrupo')}}>
             <b>+ Grupo</b>
