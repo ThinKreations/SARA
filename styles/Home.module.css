@@ -19,6 +19,7 @@
   display: flex;
   justify-content: space-between;
   position: fixed;
+  z-index: 2;
 }
 .btnAreaHeader{
   margin: 10px;
@@ -162,6 +163,8 @@
   margin-top: 25px;
   width: 200px;
   height: 200px;
+  z-index: 1;
+
 }
 
 .pdfInput{
@@ -234,15 +237,23 @@
   .classContainer{
     margin: 0px;
     padding: 0px;
+    border: 1px solid transparent;
     flex-direction: column-reverse;
+  }
+  .cuadroIzq{
+    width: 90vw;
+    transform: translate(-10px,0px);
   }
   .scannerCont{
     margin: 0px;
     width: 100%;
     border: 1px solid transparent;
+    transform: translate(35px,0);
   }
   .scannerDiv{
     margin: 0px;
     width: 100%;
+    border: 1px solid transparent;
+
   }
 }

@@ -188,7 +188,7 @@ export default function Clase({clase}){
               </tbody>
             </table>
           </div>
-          <div style={{'width':'250px','height':'75vh', 'maxHeight':'75vh','borderLeft':'1px solid rgb(200,200,200)', 'textAlign':'center'}} className={styles.scannerCont}> {/* Lado derecho xd */}
+          <div style={{'width':'250px','height':'75vh', 'maxHeight':'75vh', 'textAlign':'center'}} className={styles.scannerCont}> {/* Lado derecho xd */}
             <center>
             <div className={styles.scannerDiv}>
             <Scanner scanDelay={3000} allowMultiple={true} onScan={async (result) =>{
