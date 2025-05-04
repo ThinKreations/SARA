@@ -187,6 +187,15 @@
   border-left:1px solid rgb(200,200,200);
   text-align:center
 }
+.btnCheck{
+  width: 100%;
+  height: 20px;
+  margin: 1px;
+  font-family: Montserrat;
+  border: 1px solid black;
+  border-radius: 3px;
+  background-color: transparent;
+}
 
 @media screen and (max-width: 800px) {
   .container{

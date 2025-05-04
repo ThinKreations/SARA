@@ -23,20 +23,22 @@ export default function Clase({clase}){
   const [periodo, setPeriodo] = useState([])
   const [idMateria, setIdMateria] = useState([])
   const [materia, setMateria] = useState([])
+  const [profesor, setProfesor] = useState(0)
   const [asistenciaManual, setAsistenciaManual]=useState([])
   const [boletasEscaneadas, setBoletasEscaneadas] = useState([])
   const [registro, setRegistro]=useState({})
   const [isChecked, setIsChecked]=useState(false)
 
-  useEffect(() =>{
+
+  useEffect(()=>{
     if (!router.isReady) return;
     const logged = localStorage.getItem('isLogged');
-    if (logged !== 'true') {
+    if (logged !== 'true' ){
       router.replace('/');
-      swal({ title: "Inicia Sesión", icon: "error" })
-    } else {
+      swal({title: "Inicia Sesión", icon: "error"})
+    }else{
       setIsLogged(true);
-      fetch('../api/clases/', {
+      fetch('../api/clases/',{
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -47,10 +49,16 @@ export default function Clase({clase}){
         .catch((err) => console.error('Error al obtener grupos:', err));
         if (idClase) {
           obtenerClase(idClase).then((claseData) => {
+            if(parseInt((localStorage.getItem('numemp'))!== claseData.profesor[0].Profesor)){
+              console.log(localStorage.getItem('numemp'), 'no es', claseData.profesor[0].Profesor)
+              router.replace('/');
+              swal({title: "No autorizado", icon: "error"})
+            }
             console.log(claseData)
             setAlumnos(claseData.alumnos|| [] )
             setAsistencias(claseData.asistencias || [])
             setFechas(claseData.fechas || [])
+            setProfesor(claseData.profesor[0].Profesor)
             const clase = claseData.clases?.[0] || {}
             setSecuencia(clase.Secuencia)
             setPeriodo(clase.Periodo)
@@ -58,10 +66,12 @@ export default function Clase({clase}){
             setMateria(clase.Materia)
           }).catch(err => console.error("Error al obtener clase:", err))
         }
+        
     }
+    
   }, [router.isReady, idClase]);
   const fechaHoy = new Date().toISOString().split('T')[0]
-  //console.log(asistencias)
+  //console.log(profesor)
   const subirAsistencia = async(secuencia, periodo, idMateria, datoExtraido)=>{
     //console.log({secuencia:secuencia, periodo:periodo, idMateria:idMateria, boleta:datoExtraido})
     const res = await fetch('/api/asistir',{
@@ -95,6 +105,7 @@ export default function Clase({clase}){
     }
   }
   
+  
   return (
     <>
       <MainHead title={materia} />
@@ -112,7 +123,7 @@ export default function Clase({clase}){
                   <th scope="col">N.L.</th>
                   <th scope="col">Boleta</th>
                   <th scope="col">Nombre Completo</th>
-                  {fechas.map((fecha, indexFecha) => (
+                  {fechas.map((fecha, indexFecha) =>(
                     <th key={indexFecha}>{fecha.Fecha}</th>
                   ))}
                 </tr>
@@ -128,8 +139,29 @@ export default function Clase({clase}){
                         (a) => a.boleta === alumno.Boleta && a.fecha === fecha
                       )
                       return (
-                        <td key={i}>
+                        <td key={i} >
                           <center>
+                          <button className={styles.btnCheck}
+                            onClick={() =>{
+                              const boleta = alumno.Boleta
+                              const fechaXD = new Date(fecha.Fecha).toISOString().split('T')[0]
+                              const asistencia = asistencias.find(
+                                (a) => a.Boleta === boleta && a.Fecha === fechaXD
+                              )
+                              const nuevaAsistencia = !asistencia?.Asistencia
+                              console.log(nuevaAsistencia)
+                              modAsistencia(secuencia, periodo, idMateria, boleta, fechaXD, nuevaAsistencia)
+                            }}
+                          >
+                            {(() =>{
+                              const fechaXD = new Date(fecha.Fecha).toISOString().split('T')[0]
+                              const asistencia = asistencias.find(
+                                (a) => a.Boleta === alumno.Boleta && a.Fecha === fechaXD
+                              )
+                              return asistencia?.Asistencia ? asistencia.Hora || '✓' : ''
+                            })()}
+                        </button>
+                            {/*
                             <input type="checkbox" className={styles.check}
                             onChange={(e) => {
                               const checked = e.target.checked;
@@ -146,6 +178,7 @@ export default function Clase({clase}){
                               )
                             }
                           />
+                            */}
                           </center>
                         </td>
                       )
