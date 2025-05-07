@@ -11,7 +11,13 @@ import Router from "next/router"
 const inter = Inter({ subsets: ["latin"] })
 
 export default function Home() {
-  
+    const [invitado, setInvitado] = useState(0)
+    /*
+    const handleSubmit = async (e) =>{
+        e.preventDefault()
+        
+
+    }*/
 
   return(
     <>
@@ -19,11 +25,9 @@ export default function Home() {
       <div className={styles.container}>
         <MainHeader/>
         <div className={styles.MainArea}>
-            <form className={styles.LogIn} onSubmit={handleSubmit}>
-                <label className={styles.logLabel}>No. de Empleado</label><br/>
-                <input className={styles.logInput} type='number' value={numemp} onChange={(e)=>setNumemp(e.target.value)}/><br/>
-                <label className={styles.logLabel}>Contraseña</label><br/>
-                <input type='password' className={styles.logInput} value={pass} onChange={(e)=>setPass(e.target.value)}/><br/>
+            <form className={styles.LogIn}>
+                <label className={styles.logLabel}>Clave de acceso</label><br/>
+                <input className={styles.logInput} type='number' value={invitado} onChange={(e)=>setInvitado(e.target.value)}/><br/>
                 <button type="submit" className={styles.btnAddAlumno} style={{padding:'15px', fontSize:'20px', width:'max-content'}}><b>Acceder</b></button>
                 <br/>
             </form>
