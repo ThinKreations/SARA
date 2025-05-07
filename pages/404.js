@@ -10,32 +10,20 @@ import Router from "next/router"
 
 const inter = Inter({ subsets: ["latin"] })
 
-export default function Home() {
+export default function _404() {
   const [isLogged, setIsLogged] = useState(false)
   const [grupos, setGrupos] = useState([])
   useEffect(() =>{
-    const logged = localStorage.getItem('isLogged')
-    if (logged === 'true' && (localStorage.getItem('numemp')!==null || localStorage.getItem('numemp')!==undefined)){
-      setIsLogged(true)
-      fetch('/api/clases/',{
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
-        .then((res) => res.json())
-        .then((data) => setGrupos(data))
-        .catch((err) => console.error('Error al obtener grupos:', err))
-      }
+    Router.back()
   },[])
 
   return(
     <>
       <MainHead title='SARA'/>
       <div className={styles.container}>
-        <MainHeader grupos={grupos} />
+        <MainHeader/>
         <div className={styles.MainArea}>
-          {isLogged?<Docente grupos={grupos} />:<LogIn setIsLogged={setIsLogged}/>}
+            <h1 style={{margin:'175px', fontSize:'20vw'}}>404</h1>
         </div>
       </div>
     </>

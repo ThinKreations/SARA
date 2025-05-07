@@ -71,9 +71,7 @@ export default function Clase({clase}){
     
   }, [router.isReady, idClase]);
   const fechaHoy = new Date().toISOString().split('T')[0]
-  //console.log(profesor)
   const subirAsistencia = async(secuencia, periodo, idMateria, datoExtraido)=>{
-    //console.log({secuencia:secuencia, periodo:periodo, idMateria:idMateria, boleta:datoExtraido})
     const res = await fetch('/api/asistir',{
       method:'POST',
       headers: {
@@ -89,7 +87,6 @@ export default function Clase({clase}){
     }
   }
   const modAsistencia= async(secuencia, periodo, idMateria, boleta, fecha, cambio)=>{
-    //console.log(secuencia, periodo, idMateria, boleta, fecha, cambio)
     const resp = await fetch('/api/asistir',{
       method:'PUT',
       headers:{
@@ -141,8 +138,7 @@ export default function Clase({clase}){
                       return (
                         <td key={i} >
                           <center>
-                          <button className={styles.btnCheck}
-                            onClick={() =>{
+                          <button className={styles.btnCheck} onClick={()=>{
                               const boleta = alumno.Boleta
                               const fechaXD = new Date(fecha.Fecha).toISOString().split('T')[0]
                               const asistencia = asistencias.find(
@@ -161,25 +157,7 @@ export default function Clase({clase}){
                               return asistencia?.Asistencia ? asistencia.Hora || '✓' : ''
                             })()}
                         </button>
-                            {/*
-                            <input type="checkbox" className={styles.check}
-                            onChange={(e) => {
-                              const checked = e.target.checked;
-                              const boleta = alumno.Boleta;
-                              const fechaXD = new Date(fecha.Fecha).toISOString().split('T')[0];
-                              modAsistencia(secuencia, periodo, idMateria, boleta, fechaXD, checked);
-                            }}
-                            checked={
-                              asistencias.some(
-                                (a) => {
-                                  const fechaXD = new Date(fecha.Fecha).toISOString().split('T')[0];
-                                  return a.Boleta === alumno.Boleta&&a.Fecha===fechaXD && a.Asistencia ===true
-                                }
-                              )
-                            }
-                          />
-                            */}
-                          </center>
+                        </center>
                         </td>
                       )
                     })}
@@ -191,7 +169,7 @@ export default function Clase({clase}){
           <div style={{'width':'250px','height':'75vh', 'maxHeight':'75vh', 'textAlign':'center'}} className={styles.scannerCont}> {/* Lado derecho xd */}
             <center>
             <div className={styles.scannerDiv}>
-            <Scanner scanDelay={3000} allowMultiple={true} onScan={async (result) =>{
+            <Scanner scanDelay={3000} allowMultiple={true}  onScan={async (result) =>{
               try {
                 let xd = result[0].rawValue;
                 const response = await fetch('/api/fetchHtml', {

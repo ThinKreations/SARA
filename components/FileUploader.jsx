@@ -3,6 +3,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import swal from 'sweetalert';
 import styles from '@/styles/Home.module.css'
+import { Router } from 'next/router';
 
 const FileUploader = () => {
   const [file, setFile] = useState(0);
@@ -38,6 +39,7 @@ const FileUploader = () => {
 
       swal({ title: 'Archivo subido correctamente', icon: 'success' });
       console.log(response.data);
+
     } catch (error) {
       console.error('Error al subir el archivo:', error);
       swal({ title: 'Error al subir el archivo', icon: 'error' });

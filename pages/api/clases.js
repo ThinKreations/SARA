@@ -1,7 +1,7 @@
 export default async function obtenerGrupos(req, res) {
-    if (req.method === 'GET') {
+    if (req.method === 'GET'){
       try {
-        const response = await fetch('https://upiicsara-225fbcffb78e.herokuapp.com/grupo/');
+        const response = await fetch(`https://upiicsara-225fbcffb78e.herokuapp.com/grupo/`);
         if (!response.ok) {
           return res.status(response.status).json({ message: 'Error al obtener los datos' });
         }

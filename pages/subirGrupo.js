@@ -44,11 +44,11 @@ export default function SubirGrupo(){
         const data = await response.json();
         swal({ title: "Archivo subido correctamente", icon: "success" });
         console.log(data);
-      } catch (error) {
+        Router.push('/')
+      }catch (error){
         console.error("Error al subir archivo:", error);
         swal({ title: "Error al subir archivo", icon: "error" });
       }
-      console.log(formData);
     };
 
     return(
@@ -59,11 +59,7 @@ export default function SubirGrupo(){
         <div className={styles.MainArea}>
             <div style={{'textAlign':'center', 'margin':'200px'}}>
             <p>Sube el PDF de la lista generada por el SAES aquí:</p>
-            {/* <input 
-            type='file' 
-            accept=".pdf" 
-            className={styles.pdfInput} 
-            onChange={(e)=>handleUpload(e.target.files[0])}></input> */}
+            
             <FileUploader/>
             </div>
         </div>

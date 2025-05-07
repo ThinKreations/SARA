@@ -2,7 +2,6 @@ export default async function handler(req, res) {
     if (req.method === 'POST'){
         try{
             const {secuencia, periodo, idMateria, boleta} = req.body
-            console.log(req)
             const response = await fetch(`https://upiicsara-225fbcffb78e.herokuapp.com/grupo/${secuencia+periodo+idMateria}?secuencia=${secuencia}&periodo=${periodo}&idMateria=${idMateria}&boleta=${boleta}` ,{
                 method: 'POST',
                 headers: {
@@ -23,7 +22,6 @@ export default async function handler(req, res) {
         console.log('BUENO')
         try {
             const {secuencia, periodo, idMateria, boleta, fecha, cambio} = req.body
-            console.log(req.body)
             const response = await fetch(`https://upiicsara-225fbcffb78e.herokuapp.com/grupo/${secuencia+periodo+idMateria}?secuencia=${secuencia}&periodo=${periodo}&idMateria=${idMateria}&boleta=${boleta}&fecha=${fecha}&cambio=${cambio}`, {
                 method: 'PUT',
                 headers: {
@@ -31,7 +29,6 @@ export default async function handler(req, res) {
                 },
                 body: JSON.stringify({secuencia, periodo, idMateria, boleta, fecha, cambio})
             });
-            console.log(response)
             if (response.ok) {
               return res.status(200).json({ message: 'Asistencia marcada correctamente' });
             } else {

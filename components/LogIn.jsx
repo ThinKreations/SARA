@@ -5,8 +5,6 @@ import { useState } from 'react';
 
 export default function LogArea(){
     const [numemp, setNumemp]=useState('')
-    const [nombre, setNombre]=useState('')
-    const [correo, setCorreo]=useState('')
     const [pass, setPass]=useState('')
 
     const handleSubmit = async (e) =>{
@@ -21,10 +19,8 @@ export default function LogArea(){
                     numemp: numemp,
                     password: pass
                 })
-                
             })
             const data = await response.json()
-            //console.log(response)
             if (response.ok){
                 console.log('Login exitoso', data)
                 localStorage.setItem('isLogged', 'true')
@@ -38,17 +34,18 @@ export default function LogArea(){
         }
     }
 
-
     return (
         <>
             <form className={styles.LogIn} onSubmit={handleSubmit}>
                 <label className={styles.logLabel}>No. de Empleado</label><br/>
-                <input className={styles.logInput} value={numemp} onChange={(e)=>setNumemp(e.target.value)}/><br/>
+                <input className={styles.logInput} type='number' value={numemp} onChange={(e)=>setNumemp(e.target.value)}/><br/>
                 <label className={styles.logLabel}>Contraseña</label><br/>
                 <input type='password' className={styles.logInput} value={pass} onChange={(e)=>setPass(e.target.value)}/><br/>
-                <button type="submit" className={styles.logBtn}>Acceder</button>
+                <button type="submit" className={styles.btnAddAlumno} style={{padding:'15px', fontSize:'20px', width:'max-content'}}><b>Acceder</b></button>
                 <br/>
-                <Link href={'signUp'} style={{color:'blue', textDecoration:'none', margin:'15px'}}><p>Registrate aquí.</p></Link>
+                <Link href={'recovery'} style={{color:'blue', textDecoration:'none', margin:'5px'}}><p>Acceder como invitado</p></Link>
+                <Link href={'recovery'} style={{color:'blue', textDecoration:'none', margin:'5px'}}><p>Olvidé mi contraseña</p></Link>
+                <Link href={'signUp'} style={{color:'blue', textDecoration:'none', margin:'10px'}}><p>Registrate aquí</p></Link>
             </form>
         </>
     )

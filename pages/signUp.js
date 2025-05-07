@@ -4,8 +4,6 @@ import { Inter } from "next/font/google"
 import styles from "@/styles/Home.module.css"
 import MainHead from "@/components/MainHead"
 import MainAside from "@/components/MainHeader"
-import LogIn from "@/components/LogIn"
-import Docente from "@/components/[idDocente]"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -53,7 +51,7 @@ export default function Home() {
       <div className={styles.container}>
         <MainAside/>
         <div className={styles.MainArea}>
-            <form className={styles.LogIn} onSubmit={handleSubmit} style={{'marginTop':'100px'}}>
+            <form className={styles.LogIn} onSubmit={handleSubmit} style={{'marginTop':'175px'}}>
                 <label className={styles.logLabel}>No. de Empleado</label><br/>
                 <input className={styles.logInput} value={numemp} onChange={(e)=>setNumemp(e.target.value)}/><br/>
                 <label className={styles.logLabel}>Nombre completo</label><br/>
