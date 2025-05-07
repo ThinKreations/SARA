@@ -203,6 +203,7 @@ export default function Clase({clase}){
 
                     subirAsistencia(secuencia, periodo, idMateria, datoExtraido)
                     }else{
+                    alert('ERROR AL ESCANEAR / NO ENCONTRADA')
                     swal({
                       icon: 'warning',
                       title: `Boleta no encontrada: ${datoExtraido}`,
