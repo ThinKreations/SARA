@@ -38,9 +38,8 @@ export default function SubirGrupo(){
           title: "Acceso denegado",
           text: "Debes iniciar sesión para subir un archivo.",
           icon: "warning",
-        }).then(() => {
-          window.location.href = '/'; // Redirige si no está logueado
-        });
+        })
+        Router.push('/')
       }
     }, []);
     const handleUpload = async (file) => {
