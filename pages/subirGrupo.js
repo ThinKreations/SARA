@@ -10,7 +10,7 @@ import FileUploader from "@/components/FileUploader";
 import { useEffect, useState } from "react";
 //import handleUpload from './api/clases'
 const inter = Inter({ subsets: ["latin"] })
-let result
+import Router from "next/router";
 
 
 export default function SubirGrupo(){
