@@ -14,8 +14,13 @@ export default function Home() {
   const [isLogged, setIsLogged] = useState(false)
   const [grupos, setGrupos] = useState([])
   useEffect(() =>{
+    if(localStorage.getItem('type')==2){
+      Router.push(`/clases/${localStorage.getItem('grupo')}`)
+    }
+    console.log(localStorage.getItem('type'))
     const logged = localStorage.getItem('isLogged')
-    if (logged === 'true' && (localStorage.getItem('numemp')!==null || localStorage.getItem('numemp')!==undefined)){
+    if (logged === 'true' && localStorage.getItem('numemp')!=null){ 
+      console.log(localStorage.getItem('numemp'))
       setIsLogged(true)
       fetch('/api/clases/',{
         method: 'GET',
@@ -26,7 +31,8 @@ export default function Home() {
         .then((res) => res.json())
         .then((data) => setGrupos(data))
         .catch((err) => console.error('Error al obtener grupos:', err))
-      }
+      } 
+      
   },[])
 
   return(

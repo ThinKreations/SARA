@@ -24,6 +24,7 @@ export default function LogArea(){
             if (response.ok){
                 console.log('Login exitoso', data)
                 localStorage.setItem('isLogged', 'true')
+                localStorage.setItem('type', 1)
                 localStorage.setItem('numemp', numemp)
                 window.location.reload()
             } else {
@@ -43,7 +44,7 @@ export default function LogArea(){
                 <input type='password' className={styles.logInput} value={pass} onChange={(e)=>setPass(e.target.value)}/><br/>
                 <button type="submit" className={styles.btnAddAlumno} style={{padding:'15px', fontSize:'20px', width:'max-content'}}><b>Acceder</b></button>
                 <br/>
-                <Link href={'recovery'} style={{color:'blue', textDecoration:'none', margin:'5px'}}><p>Acceder como invitado</p></Link>
+                <Link href={'loginGuest'} style={{color:'blue', textDecoration:'none', margin:'5px'}}><p>Acceder como invitado</p></Link>
                 <Link href={'recovery'} style={{color:'blue', textDecoration:'none', margin:'5px'}}><p>Olvidé mi contraseña</p></Link>
                 <Link href={'signUp'} style={{color:'blue', textDecoration:'none', margin:'10px'}}><p>Registrate aquí</p></Link>
             </form>

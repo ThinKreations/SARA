@@ -16,8 +16,7 @@ export default function cambiarContra() {
   useEffect(() =>{
     const logged = localStorage.getItem('isLogged')
     console.log(logged)
-    if (logged !== 'true'&&localStorage.getItem('numemp')===null
-    ){
+    if (logged !== 'true'&&((localStorage.getItem('numemp')===null||localStorage.getItem('numemp')===undefined))){
       Router.push('/')
     }
   },[])

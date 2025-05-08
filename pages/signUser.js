@@ -8,20 +8,17 @@ import MainAside from "@/components/MainHeader"
 const inter = Inter({ subsets: ["latin"] })
 
 export default function Home() {
-    const [numemp, setNumemp]=useState('')
-    const [nombre, setNombre]=useState('')
-    const [correo, setCorreo]=useState('')
-    const [pass, setPass]=useState('')
-
-  useEffect(() => {
     
+    const [correo, setCorreo]=useState('')
+
+    useEffect(() => {
     const logged=localStorage.getItem('isLogged')
     if (logged==='true'){
       setIsLogged(true)
     }
-  },[])
+    },[])
 
-  const handleSubmit = async (e) =>{
+    const handleSubmit = async (e) =>{
     e.preventDefault()
     try {
         const response = await fetch('api/signUp',{
@@ -45,8 +42,8 @@ export default function Home() {
     } catch (error){
         console.error('Error de conexión:', error)
     }
-}
-  return(
+    }
+    return(
     <>
       <MainHead title='SARA'/>
       <div className={styles.container}>
@@ -65,7 +62,7 @@ export default function Home() {
                 <br/>
             </form>
         </div>
-      </div>
+        </div>
     </>
-  )
+    )
 }

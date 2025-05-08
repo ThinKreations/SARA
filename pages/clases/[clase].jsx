@@ -9,6 +9,7 @@ import swal from 'sweetalert';
 const inter = Inter({ subsets: ["latin"] });
 import { useState, useEffect } from 'react';
 import { obtenerClase } from '../api/clases';
+import {generarInvitado} from '../api/signAsistente';
 
 export default function Clase({clase}){
   const router = useRouter();
@@ -28,11 +29,13 @@ export default function Clase({clase}){
   const [boletasEscaneadas, setBoletasEscaneadas] = useState([])
   const [registro, setRegistro]=useState({})
   const [isChecked, setIsChecked]=useState(false)
-
+  const [type, setType]=useState(null)
 
   useEffect(()=>{
     if (!router.isReady) return;
     const logged = localStorage.getItem('isLogged');
+    const uType=parseInt(localStorage.getItem('type'))
+    setType(uType)
     if (logged !== 'true' ){
       router.replace('/');
       swal({title: "Inicia Sesión", icon: "error"})
@@ -50,11 +53,9 @@ export default function Clase({clase}){
         if (idClase) {
           obtenerClase(idClase).then((claseData) => {
             if(parseInt((localStorage.getItem('numemp'))!== claseData.profesor[0].Profesor)){
-              console.log(localStorage.getItem('numemp'), 'no es', claseData.profesor[0].Profesor)
               router.replace('/');
               swal({title: "No autorizado", icon: "error"})
             }
-            console.log(claseData)
             setAlumnos(claseData.alumnos|| [] )
             setAsistencias(claseData.asistencias || [])
             setFechas(claseData.fechas || [])
@@ -102,7 +103,6 @@ export default function Clase({clase}){
     }
   }
   
-  
   return (
     <>
       <MainHead title={materia} />
@@ -114,6 +114,37 @@ export default function Clase({clase}){
           </div>
         <div style={{'display':'flex', 'justifyContent':'space-between'}} className={styles.classContainer}> {/* Contenedor de ambas columnas, izq=tabla de clase, der=scanner con lista de registros */}
           <div style={{'height':'75vh', 'maxHeight':'75vh',  'display':'flex', 'flexDirection':'column', 'marginLeft':'20px'}} className={styles.cuadroIzq}> {/* Lado izquierdo xd */}
+          {type!==2?
+          (
+            <button className={styles.btnAddAlumno} style={{width: 'max-content'}} onClick={async () => {
+              try {
+                const nuevoInvitado = await generarInvitado(idClase);
+                if (nuevoInvitado && nuevoInvitado !== "False") {
+                  swal({
+                    title: `Invitado generado: ${nuevoInvitado}`,
+                    text: `El código será válido las siguientes 3 horas. Comparta este código con su invitado.`,
+                    icon: "success",
+                  });
+                } else {
+                  swal({
+                    title: "Error",
+                    text: "No se pudo generar el invitado.",
+                    icon: "error",
+                  });
+                }
+              } catch (err) {
+                console.error("Error generando invitado:", err);
+                swal({
+                  title: "Error",
+                  text: "Hubo un problema al generar el invitado.",
+                  icon: "error",
+                });
+              }
+            }}
+          >
+            + Asistente
+          </button>
+          ):(<div></div>)}
             <table className={styles.Table}>
               <thead>
                 <tr>
@@ -145,7 +176,6 @@ export default function Clase({clase}){
                                 (a) => a.Boleta === boleta && a.Fecha === fechaXD
                               )
                               const nuevaAsistencia = !asistencia?.Asistencia
-                              console.log(nuevaAsistencia)
                               modAsistencia(secuencia, periodo, idMateria, boleta, fechaXD, nuevaAsistencia)
                             }}
                           >
@@ -204,12 +234,12 @@ export default function Clase({clase}){
                     subirAsistencia(secuencia, periodo, idMateria, datoExtraido)
                     }else{
                     alert('ERROR AL ESCANEAR / NO ENCONTRADA')
-                    swal({
+                    /*swal({
                       icon: 'warning',
                       title: `Boleta no encontrada: ${datoExtraido}`,
                       text: 'Este alumno no está en la lista',
                       timer: 2000,
-                    })
+                    })*/
                   }
                 } else {
                   swal({

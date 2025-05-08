@@ -15,10 +15,24 @@ let result
 
 export default function SubirGrupo(){
     const [isLogged, setIsLogged] = useState(false)
+  const [grupos, setGrupos] = useState([])
+
     useEffect(() => {
+      if(localStorage.getItem('type')==2){
+        Router.push(`/clases/${localStorage.getItem('grupo')}`)
+      }
       const logged = localStorage.getItem('isLogged');
       if (logged === 'true') {
         setIsLogged(true);
+        fetch('/api/clases/',{
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+          .then((res) => res.json())
+          .then((data) => setGrupos(data))
+          .catch((err) => console.error('Error al obtener grupos:', err))
       } else {
         swal({
           title: "Acceso denegado",
@@ -44,7 +58,7 @@ export default function SubirGrupo(){
         const data = await response.json();
         swal({ title: "Archivo subido correctamente", icon: "success" });
         console.log(data);
-        Router.push('/')
+        Router.reload()
       }catch (error){
         console.error("Error al subir archivo:", error);
         swal({ title: "Error al subir archivo", icon: "error" });
@@ -55,7 +69,7 @@ export default function SubirGrupo(){
     <>
         <MainHead title='SARA'/>
         <div className={styles.container}>
-        <MainAside/>
+        <MainAside grupos={grupos}/>
         <div className={styles.MainArea}>
             <div style={{'textAlign':'center', 'margin':'200px'}}>
             <p>Sube el PDF de la lista generada por el SAES aquí:</p>
