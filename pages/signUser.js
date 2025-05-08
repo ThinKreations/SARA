@@ -9,7 +9,10 @@ const inter = Inter({ subsets: ["latin"] })
 
 export default function Home() {
     
+    const [numemp, setNumemp]=useState('')
+    const [nombre, setNombre]=useState('')
     const [correo, setCorreo]=useState('')
+    const [pass, setPass]=useState('')
 
     useEffect(() => {
     const logged=localStorage.getItem('isLogged')
