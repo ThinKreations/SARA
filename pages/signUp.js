@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import styles from "@/styles/Home.module.css"
 import MainHead from "@/components/MainHead"
 import MainAside from "@/components/MainHeader"
+import Router from "next/router"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -38,7 +39,7 @@ export default function Home() {
         })
         if (response.ok){
             console.log('Registro exitoso')
-            window.location.reload()
+            Router.push('/')
         } else {
             console.log('Error en el registro', response)
         }

@@ -38,7 +38,7 @@ export default function Home() {
         })
         if (response.ok){
             console.log('Registro exitoso')
-            window.location.reload()
+            Router.push('/')
         } else {
             console.log('Error en el registro', response)
         }

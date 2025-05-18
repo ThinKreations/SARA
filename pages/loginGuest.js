@@ -33,9 +33,11 @@ export default function logGuest() {
               localStorage.setItem('type', 2)
               localStorage.setItem('grupo', data)
               localStorage.setItem('invitado', invitado)
+              alert('¡Invitado encontrado!')
               Router.push(`/clases/${data}`)
           }else{
               console.log('Error en el inicio', response)
+              alert('Invitado no encontrado')
           }
       } catch (error) {
           console.error('Error de conexión:', error)

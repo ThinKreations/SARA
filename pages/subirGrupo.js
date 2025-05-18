@@ -42,6 +42,7 @@ export default function SubirGrupo(){
         Router.push('/')
       }
     }, []);
+    /* Esto no se usa
     const handleUpload = async (file) => {
       const formData = new FormData();
       formData.append('file', file);
@@ -63,6 +64,7 @@ export default function SubirGrupo(){
         swal({ title: "Error al subir archivo", icon: "error" });
       }
     };
+    */
 
     return(
     <>
