@@ -125,6 +125,7 @@ export default function Clase({clase}){
                     text: `El código será válido las siguientes 3 horas. Comparta este código con su invitado.`,
                     icon: "success",
                   });
+                  alert('El código generado es: ',nuevoInvitado)
                 } else {
                   swal({
                     title: "Error",
