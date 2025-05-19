@@ -123,11 +123,7 @@ export default function Clase({clase}){
                 const nuevoInvitado = await generarInvitado(idClase);
                 if (nuevoInvitado && nuevoInvitado !== "False") {
                   setCode(nuevoInvitado);
-                  swal({
-                    title: `Invitado generado: ${nuevoInvitado}`,
-                    text: `El código será válido las siguientes 3 horas. Comparta este código con su invitado.`,
-                    icon: "success",
-                  });
+                  
                 } else {
                   swal({
                     title: "Error",
