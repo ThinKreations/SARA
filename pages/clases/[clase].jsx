@@ -30,6 +30,7 @@ export default function Clase({clase}){
   const [registro, setRegistro]=useState({})
   const [isChecked, setIsChecked]=useState(false)
   const [type, setType]=useState(null)
+  const [code, setCode]=useState(null)
 
   useEffect(()=>{
     if (!router.isReady) return;
@@ -116,16 +117,17 @@ export default function Clase({clase}){
           <div style={{'height':'75vh', 'maxHeight':'75vh',  'display':'flex', 'flexDirection':'column', 'marginLeft':'20px'}} className={styles.cuadroIzq}> {/* Lado izquierdo xd */}
           {type!==2?
           (
-            <button className={styles.btnAddAlumno} style={{width: 'max-content'}} onClick={async () => {
+            <div style={{width:'fit-content', display:'flex', justifyContent:'space-between', alignContent:'center', alignItems:'center'}}>
+              <button className={styles.btnAddAlumno} style={{width: 'max-content', height:'fit-content'}} onClick={async () => {
               try {
                 const nuevoInvitado = await generarInvitado(idClase);
                 if (nuevoInvitado && nuevoInvitado !== "False") {
+                  setCode(nuevoInvitado);
                   swal({
                     title: `Invitado generado: ${nuevoInvitado}`,
                     text: `El código será válido las siguientes 3 horas. Comparta este código con su invitado.`,
                     icon: "success",
                   });
-                  alert('El código generado es: ',nuevoInvitado)
                 } else {
                   swal({
                     title: "Error",
@@ -145,6 +147,8 @@ export default function Clase({clase}){
           >
             + Asistente
           </button>
+          <p style={{margin:'0px', marginLeft:'14px', color:'rgb(150,150,150)'}}>{code? `Invitado: ${code}`: `‎`}</p>
+            </div>
           ):(<div></div>)}
             <table className={styles.Table}>
               <thead>
