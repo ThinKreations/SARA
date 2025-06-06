@@ -16,7 +16,6 @@ export default function Docente(grupos){
         <Link href={`/user/${localStorage.getItem('numemp')}`} style={{color:'black', textDecoration:'none'}}><p>Cambiar contraseña</p></Link>
         </center>
         </div>
-
         </>
     )
 }

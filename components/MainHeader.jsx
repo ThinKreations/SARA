@@ -25,7 +25,7 @@ export default function MainHeader({ grupos }) {
                             const selectedValue = e.target.value.split('-')
                             const secuencia = selectedValue[0].trim()
                             const grupoSeleccionado = grupos.find(grupo=>grupo.Secuencia === secuencia)
-                            if (grupoSeleccionado) {
+                            if (grupoSeleccionado){
                                 const {Secuencia, Periodo, ID_Materia}=grupoSeleccionado
                                 console.log('Grupo seleccionado:', grupoSeleccionado)
                                 Router.push(`/clases/${Secuencia}${Periodo}${ID_Materia}`)

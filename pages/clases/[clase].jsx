@@ -54,7 +54,7 @@ export default function Clase({clase}){
         if (idClase) {
           obtenerClase(idClase).then((claseData) => {
             if(parseInt((localStorage.getItem('numemp'))!== claseData.profesor[0].Profesor)){
-              router.replace('/');
+              router.replace('/')
               swal({title: "No autorizado", icon: "error"})
             }
             setAlumnos(claseData.alumnos|| [] )
@@ -203,18 +203,18 @@ export default function Clase({clase}){
             <Scanner scanDelay={3000} allowMultiple={true}  onScan={async (result) =>{
               try {
                 let xd = result[0].rawValue;
-                const response = await fetch('/api/fetchHtml', {
+                const response = await fetch('/api/fetchHtml',{
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
                   },
                   body: JSON.stringify({ url: xd }),
                 })
-                if (!response.ok) throw new Error('No se pudo leer la página');
+                if (!response.ok) throw new Error('No se pudo leer la página')
                 const data = await response.json()
-                const htmlText = data.html;
-                const regexd = /([0-9]{2}|PE)[0-9]{8}/; 
-                const match = htmlText.match(regexd);
+                const htmlText = data.html
+                const regexd = /([0-9]{2}|PE)[0-9]{8}/  /* ESTA ES LA EXPRESIÓN REGULAR */
+                const match = htmlText.match(regexd)
                 if (match){
                   const datoExtraido = match[0].trim()
                   const boletaExiste = alumnos.some(
@@ -262,9 +262,9 @@ export default function Clase({clase}){
           </div >
             <div>
             <ul>
-            {[...new Set(lista)].map((boleta, index) => (
+            {/*[...new Set(lista)].map((boleta, index) => (
               <li key={index}>{boleta}</li>
-            ))}
+            ))*/}
           </ul>
             </div> 
             </center>

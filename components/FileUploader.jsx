@@ -5,43 +5,41 @@ import swal from 'sweetalert';
 import styles from '@/styles/Home.module.css'
 import Router from 'next/router';
 
-const FileUploader = () => {
-  const [file, setFile] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+const FileUploader=()=>{
+  const [file, setFile] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleFileChange = (e) =>{
     if (e.target.files && e.target.files[0]){
-      setFile(e.target.files[0]);
+      setFile(e.target.files[0])
     }
   };
 
   const handleSubmit = async()=>{
     if (!file){
-      swal({ title: 'Selecciona un archivo PDF', icon: 'warning' })
+      swal({title: 'Selecciona un archivo PDF', icon: 'warning'})
       return
     }
-    setIsLoading(true);
+    setIsLoading(true)
     try{
-      const formData = new FormData();
-      formData.append('file', file);
-
+      const formData = new FormData()
+      formData.append('file', file)
       const response = await axios.post('https://upiicsara-225fbcffb78e.herokuapp.com/grupo/',formData,{
           headers:{
             'Content-Type': 'multipart/form-data',
           },
         }
-      );
-
-      swal({ title: 'Archivo subido correctamente', icon: 'success' });
-      console.log(response.data);
+      )
+      swal({ title: 'Archivo subido correctamente', icon: 'success' })
+      console.log(response.data)
       Router.push('/')
     }catch (error){
-      console.error('Error al subir el archivo:', error);
-      swal({ title: 'Error al subir el archivo', icon: 'error' });
+      console.error('Error al subir el archivo:', error)
+      swal({ title: 'Error al subir el archivo', icon: 'error' })
     }finally{
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return(
     <div>
@@ -58,4 +56,4 @@ const FileUploader = () => {
   );
 };
 
-export default FileUploader;
+export default FileUploader
